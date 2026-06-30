@@ -1,0 +1,251 @@
+{
+  "name": "Social Media Post 1",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Your Interest",
+        "formDescription": "Write your social media post topic.",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "What are You Thinking?",
+              "fieldType": "textarea",
+              "placeholder": "write your post topic..."
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.5,
+      "position": [
+        -288,
+        96
+      ],
+      "id": "1b81b3cc-6561-4058-ab87-a08baba98fb3",
+      "name": "On form submission",
+      "webhookId": "5d4d6d7d-bdf5-40a1-b207-e6b709430afd"
+    },
+    {
+      "parameters": {
+        "text": "=You are a senior social media strategist and multilingual copywriter.\n\nOBJECTIVE\nFrom ONE Topic/Idea, generate 5 platform-optimized posts:\n\n1) Facebook Page (Bangla, but main keywords in English)\n2) Instagram (Bangla, but main keywords in English)\n3) LinkedIn (English)\n4) X / Twitter (English)\n5) Threads (English)\n\nINPUT\nTopic/Idea: {{ $json['What are You Thinking?'] }}\n\nGLOBAL SETTINGS\n- Audience: General audience\n- Tone: Automatically choose the best tone based on the topic (educational, inspirational, promotional, or thought-provoking)\n- Emojis: Allowed (but not excessive)\n- No external links unless topic clearly requires one\n- If topic includes technical/business terms, keep important keywords in English (even inside Bangla posts)\n\nPLATFORM CHARACTER LIMITS (STRICT — DO NOT EXCEED)\n- Facebook: max 1500 characters\n- Instagram: max 2200 characters\n- LinkedIn: max 3000 characters\n- X (Twitter): max 280 characters\n- Threads: max 500 characters\n\nLANGUAGE RULES\n- Facebook & Instagram:\n  - Write in natural conversational Bangla.\n  - Keep important keywords in English (e.g., AI, Digital Marketing, Freelancing, Branding, Startup, Content Strategy, etc.).\n  - Do NOT fully translate core industry terms.\n  - Make it engaging and community-friendly.\n\n- LinkedIn:\n  - Write in professional English.\n  - Structured, insightful, value-driven.\n  - Clear takeaway.\n\n- X:\n  - Ultra concise.\n  - One core insight.\n  - Strong hook.\n  - High clarity.\n\n- Threads:\n  - Conversational English.\n  - Opinion + light engagement question.\n  - Friendly tone.\n\nHASHTAG RULES\n- Facebook: 3–5 hashtags\n- Instagram: 8–15 hashtags\n- LinkedIn: 3–5 hashtags\n- X: 1–3 hashtags\n- Threads: 3–5 hashtags\n- No hashtag stuffing.\n- Keep hashtags relevant.\n\nSTYLE GUIDELINES\n- Start with a strong hook.\n- Use short paragraphs.\n- Avoid generic fluff.\n- Avoid exaggerated promises.\n- Make each platform version UNIQUE (not direct translation).\n- Add a soft CTA (e.g., “আপনার কী মত?”, “What do you think?”, “Share your thoughts.”)\n\nPROCESS\n1) Understand the intent behind the topic (educate / inspire / promote / awareness).\n2) Identify the core message.\n3) Create platform-specific versions.\n4) Verify character limits.\n5) Ensure Bangla posts naturally mix Bangla + English keywords.\n\nOUTPUT FORMAT (STRICT — RETURN JSON ONLY)\n\n{\n  \"facebook\": {\n    \"text\": \"...\",\n    \"char_count\": 0\n  },\n  \"instagram\": {\n    \"text\": \"...\",\n    \"char_count\": 0\n  },\n  \"linkedin\": {\n    \"text\": \"...\",\n    \"char_count\": 0\n  },\n  \"x\": {\n    \"text\": \"...\",\n    \"char_count\": 0\n  },\n  \"threads\": {\n    \"text\": \"...\",\n    \"char_count\": 0\n  }\n}\n\nIMPORTANT:\n- \"char_count\" must be the exact character count of the \"text\".\n- Include hashtags inside the text (at the end).\n- Do not add explanations.\n- Do not exceed character limits.\n- Return valid JSON only.\n- do not use \"*\".\n\nTopic: {{ $json['What are You Thinking?'] }}",
+        "attributes": {
+          "attributes": [
+            {
+              "name": "Facebook",
+              "description": "- Write in natural conversational Bangla.   - Keep important keywords in English (e.g., AI, Digital Marketing, Freelancing, Branding, Startup, Content Strategy, etc.).   - Do NOT fully translate core industry terms.   - Make it engaging and community-friendly."
+            },
+            {
+              "name": "Instagram",
+              "description": "- Write in natural conversational Bangla.   - Keep important keywords in English (e.g., AI, Digital Marketing, Freelancing, Branding, Startup, Content Strategy, etc.).   - Do NOT fully translate core industry terms.   - Make it engaging and community-friendly."
+            },
+            {
+              "name": "Linkedin",
+              "description": "- Write in professional English.   - Structured, insightful, value-driven.   - Clear takeaway."
+            },
+            {
+              "name": "X",
+              "description": "- Ultra concise.   - One core insight.   - Strong hook.   - High clarity."
+            },
+            {
+              "name": "Threads",
+              "description": "- Conversational English.   - Opinion + light engagement question.   - Friendly tone."
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.informationExtractor",
+      "typeVersion": 1.2,
+      "position": [
+        -80,
+        96
+      ],
+      "id": "ca2f8df3-9f2b-4e5e-9736-164198f55789",
+      "name": "Information Extractor"
+    },
+    {
+      "parameters": {
+        "operation": "uploadText",
+        "user": "AiAutomation",
+        "platform": [
+          "facebook"
+        ],
+        "title": "={{ $json.output.Facebook }}",
+        "facebookPageId": "736398322892977"
+      },
+      "type": "n8n-nodes-upload-post.uploadPost",
+      "typeVersion": 1,
+      "position": [
+        256,
+        -16
+      ],
+      "id": "936b98b2-4cb7-4d7d-9f92-70a5d67763fb",
+      "name": "Facebook",
+      "credentials": {
+        "uploadPostApi": {
+          "id": "xsnbamwEtf3sUQZk",
+          "name": "Upload Post account 188"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "uploadText",
+        "user": "AiAutomation",
+        "platform": [
+          "linkedin"
+        ],
+        "title": "={{ $json.output.Linkedin }}",
+        "targetLinkedinPageId": "me"
+      },
+      "type": "n8n-nodes-upload-post.uploadPost",
+      "typeVersion": 1,
+      "position": [
+        256,
+        144
+      ],
+      "id": "8e644f0d-3e10-43ce-a25e-aaea7246099a",
+      "name": "Linkdin",
+      "credentials": {
+        "uploadPostApi": {
+          "id": "xsnbamwEtf3sUQZk",
+          "name": "Upload Post account 188"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "uploadText",
+        "user": "AiAutomation",
+        "platform": [
+          "x"
+        ],
+        "title": "={{ $json.output.X }}"
+      },
+      "type": "n8n-nodes-upload-post.uploadPost",
+      "typeVersion": 1,
+      "position": [
+        256,
+        304
+      ],
+      "id": "d263f8df-334e-4495-964c-c44dfef7abea",
+      "name": "X",
+      "credentials": {
+        "uploadPostApi": {
+          "id": "xsnbamwEtf3sUQZk",
+          "name": "Upload Post account 188"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "uploadText",
+        "user": "AiAutomation",
+        "platform": [
+          "threads"
+        ],
+        "title": "={{ $json.output.Threads }}"
+      },
+      "type": "n8n-nodes-upload-post.uploadPost",
+      "typeVersion": 1,
+      "position": [
+        256,
+        448
+      ],
+      "id": "9fd98907-4711-4762-a3a5-8c189120202d",
+      "name": "Threads",
+      "credentials": {
+        "uploadPostApi": {
+          "id": "xsnbamwEtf3sUQZk",
+          "name": "Upload Post account 188"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-pro-latest",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -160,
+        304
+      ],
+      "id": "94277fc1-faf9-439b-93d5-38a9d70a3369",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "y7YebYM96Kf0BV93",
+          "name": "Sohag Gain"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Information Extractor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Information Extractor": {
+      "main": [
+        [
+          {
+            "node": "Facebook",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Linkdin",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "X",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Threads",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Information Extractor",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "245944ca-d31a-4ed6-9c30-466a1a1d11ce",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "5f00bba974abf03cb5183d4d65f8a9645a781b04770df6a7d08284fca87d50b3"
+  },
+  "nodeGroups": [],
+  "id": "0AYpfLZdINeT2RRL",
+  "tags": []
+}
